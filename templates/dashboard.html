@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 800px;
+        }
+        .form-container, .chart-container {
+            flex: 1;
+            margin: 10px;
+        }
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-container input {
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #218838;
+        }
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .logout-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .logout-container button {
+            padding: 10px 15px;
+            background-color: #dc3545;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .logout-container button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    <div class="container">
+        <div class="form-container">
+            <h2>Activity Form</h2>
+            <form id="activity-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+                
+            </form>
+        </div>
+        <div class="chart-container">
+            <h2>Activity Chart</h2>
+            
+            {% if graph_image_path %}
+            <img src="{{ graph_image_path }}" alt="Bar Graph" style="width: 100%;">
+           
+            {% else %}
+                <p>No activity data found.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
